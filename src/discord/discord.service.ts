@@ -12,17 +12,17 @@ export class DiscordService {
         this.client = new Client({ intents: [ 'DirectMessages', 'Guilds', 'GuildMessages', 'MessageContent'] })
         const token: string = this.configService.getOrThrow<string>('DISCORD_TOKEN')
         
-        this.client.on('ready',async (data: Client) => {
-            this.logger.log('WatsonBot is ready to listen')
+        this.client.on('ready', () => {
+            this.logger.log('DnaBot is ready to listen')
         })
 
         this.client.on('messageCreate', (msg) => {
-            this.logger.log('Message created: ' + JSON.stringify(msg))
+            this.logger.log('message: ' + JSON.stringify(msg))
         })
 
         this.client.login(token)
-            .then((res) => {
-                this.logger.log('Authentication successfully')
+            .then(() => {
+                this.logger.log('Discord Authentication successfully')
             })
             .catch((error) => {
                 this.logger.error(error)
