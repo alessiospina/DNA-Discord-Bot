@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { DiscordService } from './discord.service';
+import { DiscordManager } from './discord.manager';
+import { DnaBotModule } from '../dnabot/dnabot.module';
 
 @Module({
-  imports: [ConfigModule],
-  providers: [DiscordService],
+  imports: [ConfigModule, DnaBotModule],
+  providers: [DiscordManager],
 })
 export class DiscordModule {}

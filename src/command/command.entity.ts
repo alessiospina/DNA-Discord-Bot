@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-@Entity({ name: 'COMMAND', synchronize: true})
+@Entity({ name: 'COMMANDS', synchronize: true})
 export class Command {
     
     @PrimaryGeneratedColumn({name: 'id'})
@@ -9,6 +9,9 @@ export class Command {
 
     @Column({name: 'action', unique: true, length: 128, nullable: false })
     action: string;
+
+    @Column({name: 'description', nullable: false, type: "text" })
+    description: string;
 
     @Column({name: 'response', nullable: false, type: "text" })
     response: string;
@@ -28,9 +31,10 @@ export class Command {
     })
     updatedAt: Date;
 
-    constructor(id: number, action: string, response: string, createdAt: Date, updatedAt: Date) {
+    constructor(id: number, action: string, description: string, response: string, createdAt: Date, updatedAt: Date) {
         this.id = id;
         this.action = action;
+        this.description = description;
         this.response = response;
         this.createdAt = createdAt
         this.updatedAt = updatedAt;

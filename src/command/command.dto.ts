@@ -9,6 +9,9 @@ export class CommandDto {
     readonly action: string
 
     @Expose()
+    readonly description: string
+
+    @Expose()
     readonly response: string
 
     @Expose()

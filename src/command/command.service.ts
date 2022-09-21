@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
@@ -21,6 +20,19 @@ export class CommandService {
         const res = await paginate<Command>(this.commandRepository, options);
         this.logger.log('find() - finished with list item length:' + res.items.length)
         return res;
+    }
+
+    public async findAll(): Promise<Command[]> {
+        this.logger.log('findAll() - incoming request')
+        let found = []
+        try {
+            found = await this.commandRepository.find();
+        } catch (error) {
+            this.logger.error('findAll() - error: ' + error)
+            throw new HttpException("Command Error during fetch all commands", HttpStatus.INTERNAL_SERVER_ERROR)    
+        }
+        this.logger.log('findAll() - commands list size: ' + found.length)
+        return found
     }
 
     public async add(toSave: Command): Promise<Command> {

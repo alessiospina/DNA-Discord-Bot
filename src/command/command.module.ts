@@ -8,5 +8,6 @@ import { Command } from './command.entity';
   imports: [TypeOrmModule.forFeature([Command])],
   providers: [CommandService],
   controllers: [CommandController],
+  exports: [CommandService],
 })
 export class CommandModule {}
