@@ -35,6 +35,20 @@ export class CommandService {
         return found
     }
 
+    public async findById(id: number): Promise<Command> {
+        let found = undefined
+        try {
+            found = await this.commandRepository.findOneBy({ id: id });
+        } catch (error) {
+            this.logger.error('findById() - error: ' + error)
+            throw new HttpException("Command Error during the command selection", HttpStatus.INTERNAL_SERVER_ERROR)   
+        }
+        if(!found)
+            throw new HttpException('Command not found', HttpStatus.NOT_FOUND)
+
+        return found
+    }
+
     public async add(toSave: Command): Promise<Command> {
         this.logger.log('add() - incoming request with obj: ' + JSON.stringify(toSave))
         let saved = undefined
@@ -48,5 +62,37 @@ export class CommandService {
         }
         this.logger.log('add() - command created: ' + JSON.stringify(saved))
         return saved
+    }
+
+    public async delete(id: number): Promise<Command> {
+        this.logger.log('delete() - incoming request with id: ' + id)
+        let found = undefined
+
+        try {
+            found = await this.findById(id)
+        } catch (error) {
+            this.logger.error('delete() - error: ' + error)
+            if(!(error instanceof HttpException))
+                throw new HttpException('Error during delete operation', HttpStatus.INTERNAL_SERVER_ERROR)
+            if(error.getStatus() === HttpStatus.NOT_FOUND)
+                throw new HttpException('Command not exists', HttpStatus.NO_CONTENT)
+            throw error
+        }
+        
+        let deleted = undefined
+
+        try {
+            deleted = (await this.commandRepository.delete(id)).affected
+        } catch (error) {
+            this.logger.error('delete() - error: ' + error)
+            throw new HttpException('Error during delete operation', HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+
+        if(deleted === null || deleted === 0) {
+            this.logger.error('delete() - delete operation not affected with id: ' + id)
+			throw new HttpException('Error during delete operation', HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+        return found
     }
 }

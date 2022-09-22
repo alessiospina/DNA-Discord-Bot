@@ -42,6 +42,7 @@ export class DiscordManager {
         
         this.client.on('interactionCreate', async interaction => {
             if (!interaction.isChatInputCommand()) return;
+            
             this.logger.log('interactionCreated(): user input:' + interaction.commandName)
             
             if (this.commandsMap.has(interaction.commandName)) {
@@ -51,7 +52,4 @@ export class DiscordManager {
           
         this.client.login(token);
     }
-
-
-
 }

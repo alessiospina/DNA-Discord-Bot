@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, DefaultValuePipe, Get, Headers, ParseIntPipe, Post, Query } from "@nestjs/common";
+import { Body, Controller, DefaultValuePipe, Delete, Get, Headers, Param, ParseIntPipe, Post, Query } from "@nestjs/common";
 import { Pagination } from "nestjs-typeorm-paginate";
 import { CommandService } from './command.service';
 import { CommandDto } from "./command.dto";
@@ -30,6 +30,12 @@ export class CommandController {
     @Post()
     async add(@Body() command: CommandDto) {
         const created = await this.commandService.add(command);
+        return ServerResponse.success(plainToClass(CommandDto, created));
+    }
+
+    @Delete('/:id')
+    async delete(@Param() id: number) {
+        const created = await this.commandService.delete(id);
         return ServerResponse.success(plainToClass(CommandDto, created));
     }
 }

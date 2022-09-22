@@ -7,7 +7,6 @@ import { CommandService } from '../command/command.service';
 export class DnaBotManager {
 
     private readonly logger = new Logger(DnaBotManager.name);
-    private commands: Command[] = []
 
     constructor(private readonly commandService: CommandService){}
 
