@@ -24,13 +24,19 @@ export class CommandService {
 
     public async findAll(): Promise<Command[]> {
         this.logger.log('findAll() - incoming request')
-        let found = []
+        let found: Command[] = []
         try {
             found = await this.commandRepository.find();
         } catch (error) {
             this.logger.error('findAll() - error: ' + error)
             throw new HttpException("Command Error during fetch all commands", HttpStatus.INTERNAL_SERVER_ERROR)    
         }
+
+        if(!found || found.length <= 0) {
+            this.logger.warn('findAll(): no content')
+            throw new HttpException("No content", HttpStatus.NO_CONTENT)
+        }
+
         this.logger.log('findAll() - commands list size: ' + found.length)
         return found
     }
@@ -43,8 +49,10 @@ export class CommandService {
             this.logger.error('findById() - error: ' + error)
             throw new HttpException("Command Error during the command selection", HttpStatus.INTERNAL_SERVER_ERROR)   
         }
-        if(!found)
+        if(!found) {
+            this.logger.warn('find() obj id: ' + id + ' not found')
             throw new HttpException('Command not found', HttpStatus.NOT_FOUND)
+        }
 
         return found
     }

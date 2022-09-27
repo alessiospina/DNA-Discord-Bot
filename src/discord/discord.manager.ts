@@ -23,7 +23,12 @@ export class DiscordManager {
         this.rest = new REST({ version: '10' }).setToken(token);
 
         (async () => {
-            const commands = await this.dnabotManager.getCommands();
+            let commands = []
+            try {
+                commands = await this.dnabotManager.getCommands();
+            } catch (error) {
+                this.logger.error("Error during command getCommands(): " + JSON.stringify(error))
+            }
             const discordCommands: any[] = []
     
             for (const command of commands) {
