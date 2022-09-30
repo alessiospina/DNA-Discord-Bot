@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 (function($) {
   'use strict';
   $.fn.andSelf = function() {

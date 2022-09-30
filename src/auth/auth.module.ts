@@ -6,6 +6,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from "@nestjs/passport";
 import { JwtStrategy } from './jwt.auth';
 import { ConfigModule, ConfigService } from "@nestjs/config";
+import { LocalStrategy } from "./local.auth";
+import { SessionSerializer } from "./session.serializer";
 
 @Module({
     imports: [
@@ -23,7 +25,12 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
         }),
     ],
     controllers: [],
-    providers: [AuthService, JwtStrategy],
+    providers: [
+        AuthService, 
+        JwtStrategy,
+        LocalStrategy, 
+        SessionSerializer
+    ],
     exports: [
         AuthService,
         JwtModule

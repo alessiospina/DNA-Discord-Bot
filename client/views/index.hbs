@@ -189,7 +189,7 @@
               <div class="col-12 grid-margin">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Order Status</h4>
+                    <h4 class="card-title">Discord Commands</h4>
                     <div class="table-responsive">
                       <table class="table">
                         <thead>
@@ -201,24 +201,24 @@
                                 </label>
                               </div>
                             </th>
-                            <th> ID </th>
-                            <th> COMMAND </th>
+                            <th style="display:none;"> ID </th>
+                            <th> ACTION </th>
                             <th> DESCRIPTION </th>
                             <th> RESPONSE </th>
-                            <th> CREATED </th>
-                            <th> UPDATED </th>
+                            <th style="display:none;" > CREATED </th>
+                            <th style="display:none;" > UPDATED </th>
                           </tr>
                         </thead>
                         <tbody>
                           {{#if commands.length}}
                             {{#each commands}}
                               <tr>
-                                <td>{{id}}</td>
+                                <td style="display:none;">{{id}}</td>
                                 <td>{{action}}</td>
                                 <td>{{description}}</td>
                                 <td>{{response}}</td>
-                                <td>{{createdAt}}</td>
-                                <td>{{updatedAt}}</td>
+                                <td style="display:none;">{{createdAt}}</td>
+                                <td style="display:none;">{{updatedAt}}</td>
                               </tr>
                             {{/each}}
                           {{/if}}

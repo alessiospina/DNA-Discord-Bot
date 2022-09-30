@@ -20,6 +20,15 @@ export class AuthService {
         const { ...result } = user;
         return result;
     }
+
+    async validateUserPass(username: string, pass: string): Promise<any> {
+        const user = await this.userService.findByUsername(username)
+        if (user && user.password === pass) {
+          const { password, ...result } = user;
+          return result;
+        }
+        return null;
+    }
     
     async login(user: LoginRequestDto) {
         let attempt = undefined
