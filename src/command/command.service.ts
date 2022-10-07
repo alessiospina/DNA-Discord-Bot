@@ -3,6 +3,7 @@ import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
+import { CommandDto } from './command.dto';
 import { Command } from './command.entity';
 
 @Injectable()
@@ -57,7 +58,7 @@ export class CommandService {
         return found
     }
 
-    public async add(toSave: Command): Promise<Command> {
+    public async add(toSave: CommandDto): Promise<Command> {
         this.logger.log('add() - incoming request with obj: ' + JSON.stringify(toSave))
         let saved = undefined
         try {

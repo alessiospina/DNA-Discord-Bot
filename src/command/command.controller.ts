@@ -5,10 +5,9 @@ import { CommandService } from './command.service';
 import { CommandDto } from "./command.dto";
 import { ServerResponse } from "src/common/server.response";
 import { plainToClass } from "@nestjs/class-transformer";
-import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from "src/auth/jwt.auth.guard";
 
-@Controller('command')
+@Controller('/api/command')
 export class CommandController {
     constructor(private readonly commandService: CommandService) {}
 

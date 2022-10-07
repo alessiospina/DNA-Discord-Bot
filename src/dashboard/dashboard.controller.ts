@@ -1,12 +1,13 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Get, Post, Render, Res, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Post, Render, Req, Request, Res, UseGuards } from "@nestjs/common";
 import { LoginRequestDto } from "src/auth/login.request.dto";
 import { DashboardService } from "./dashboard.service";
 import { AuthService } from '../auth/auth.service';
 import { LoginGuard } from "src/auth/login.auth.guard";
-import { Response } from 'express';
 import { AuthenticatedGuard } from "src/auth/authenticated.guard";
-
+import { Response } from 'express'
+import { CommandDto } from '../command/command.dto';
+import * as moment from 'moment'
 
 @Controller()
 export class DashboardController {
@@ -17,25 +18,42 @@ export class DashboardController {
 
     @Get('/')
     @Render('login')
-    index() {
+    async index() {
       return;
     }
 
     @UseGuards(LoginGuard)
     @Post('/login')
-    login(@Res() res: Response) {
+    async login(@Res() res: Response) {
       res.redirect('/dashboard');
     }
 
     @Get('/dashboard')
     @UseGuards(AuthenticatedGuard)
     @Render('index')
-    async root() {
-       return await this.dashboardService.getIndexData()
+    async root(@Request() req, @Res() res: Response) {
+        console.log("")
+        return {
+            moment: moment,
+            username: req.user.username,
+            data: await this.dashboardService.getIndexData() 
+        }
     }
 
     @Post('/jwt/login')
     async jwtLogin(@Body() loginRequest: LoginRequestDto) {
         return this.authService.login(loginRequest);
+    }
+
+    @Get('/logout')
+    async logout(@Request() req, @Res() res: Response) {
+        req.session.destroy()
+        res.redirect('/');
+    }
+
+    @Post('/dashboard/create/command')
+    @UseGuards(AuthenticatedGuard)
+    async createCommand(@Body() command: CommandDto) {
+        return this.dashboardService.createCommand(command)
     }
 }

@@ -1,11 +1,12 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable, InternalServerErrorException, Logger } from "@nestjs/common";
 import { CommandService } from '../command/command.service';
+import { CommandDto } from '../command/command.dto';
 
 @Injectable()
 export class DashboardService {
     
-    private readonly logger = new Logger(CommandService.name);
+    private readonly logger = new Logger(DashboardService.name);
 
     constructor(
         private readonly commandService: CommandService
@@ -21,5 +22,17 @@ export class DashboardService {
             this.logger.error('getIndexData() error: ' + JSON.stringify(error))
         }
         return { commands: commands }
+    }
+
+
+    async createCommand(command: CommandDto): Promise<any> {
+        try {
+            this.logger.log('createCommand() incoming request')
+            return await this.commandService.add(command);
+        } catch (error) {
+            this.logger.error('createCommand() error:' + JSON.stringify(error))
+            throw new InternalServerErrorException();
+            
+        }
     }
 }

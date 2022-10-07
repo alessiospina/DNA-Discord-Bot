@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from "@nestjs/jwt";
 import { UserDto } from 'src/user/user.dto';
+import { User } from 'src/user/user.entity';
 import { UserService } from '../user/user.service';
 import { LoginRequestDto } from './login.request.dto';
 
@@ -15,19 +16,26 @@ export class AuthService {
     async validateUser({username}): Promise<any> {
         const user = await this.userService.findByUsername(username);
         if (!user) {
-            throw new HttpException('Unathorized', HttpStatus.UNAUTHORIZED)
+            throw new UnauthorizedException()
         }
         const { ...result } = user;
         return result;
     }
 
     async validateUserPass(username: string, pass: string): Promise<any> {
-        const user = await this.userService.findByUsername(username)
-        if (user && user.password === pass) {
-          const { password, ...result } = user;
-          return result;
+        let user: User = undefined
+        try {
+            user = await this.userService.findByUsername(username)
+        } catch (error) {
+            throw new UnauthorizedException()
         }
-        return null;
+        if(!user)
+            throw new UnauthorizedException()
+
+        if(pass !== user.password)
+            throw new UnauthorizedException()
+        
+        return user
     }
     
     async login(user: LoginRequestDto) {

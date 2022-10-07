@@ -7,13 +7,21 @@ import { join } from "path";
 import flash = require('connect-flash');
 import * as session from 'express-session';
 import * as passport from "passport";
+import { ForbiddenExceptionFilter } from "./filter/forbidden.exception.filter";
+import { NotFoundExceptionFilter } from "./filter/not.found.exception.filter";
+import { UnauthorizedExceptionFilter } from "./filter/unauthorized.exception.filter";
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
+    app.useGlobalFilters(new ForbiddenExceptionFilter());
+    app.useGlobalFilters(new NotFoundExceptionFilter());
+    app.useGlobalFilters(new UnauthorizedExceptionFilter());
+
     app.useStaticAssets(join(__dirname, '..', '/client/public'))
     app.setBaseViewsDir(join(__dirname, '..', '/client/views'))
-    app.setViewEngine('hbs')
+    
+    app.setViewEngine('ejs')
 
     app.use(
         session({
