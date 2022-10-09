@@ -1,0 +1,24 @@
+.dataTables_filter {
+    color: white !important;
+    margin-bottom: 20px !important;
+}
+
+.dataTables_length {
+    color: white !important;
+}
+
+select {
+    color: white !important;
+}
+
+.paginate_button.enabled {
+    color: white !important;
+}
+
+.paginate_button.disabled {
+    color: whitesmoke !important;
+}
+
+.dataTables_wrapper.dataTables_paginate.paginate_button {
+    color: white !important;
+}

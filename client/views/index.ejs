@@ -19,6 +19,7 @@
     <!-- endinject -->
     <!-- Layout styles -->
     <link rel="stylesheet" href="dashboard_package/css/style.css">
+    <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/common.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="dashboard_package/images/favicon.png" />
@@ -27,6 +28,7 @@
 
   </head>
   <body>
+    <p style="display:none;" id="dataCommands"><%= JSON.stringify(data.commands) %></p>
     <div class="container-scroller">
       <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
@@ -98,18 +100,17 @@
                         <div class="col">
                           <h4 class="card-title">Discord Commands</h4>
                         </div>
-                        <div class="col d-flex flex-row-reverse">
-                          <button type="button" class="btn btn-outline-primary btn-icon-text" id="createButtonCommandModal">
-                            <i class="mdi mdi-plus-circle-outline btn-icon-prepend"></i> Add 
-                          </button>
-                        </div>
                       </div>
                     </div>
                     <div class="table-responsive">
                       <table class="table" id="table">
                         <thead>
                           <tr>
-                            <th> </th>
+                            <th class = "no-sort">
+                              <button type="button" class="btn btn-outline-primary btn-icon-text" id="createButtonCommandModal">
+                                <i class="mdi mdi-plus-circle-outline btn-icon-prepend"></i> Add 
+                              </button>
+                            </th>
                             <th style="display:none;"> ID </th>
                             <th> ACTION </th>
                             <th> DESCRIPTION </th>
@@ -119,27 +120,6 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <% for (var i = 0; i < data.commands.length; i++) { %>
-                            <tr>
-                              <td> 
-                                <div class="dropdown">
-                                  <button type="button" class="btn btn-outline-primary dropdown-toggle" id="dropdownMenuIconButton8" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="mdi mdi-pencil"></i>
-                                  </button>
-                                  <div class="dropdown-menu" aria-labelledby="dropdownMenuIconButton8" style="">
-                                    <a class="dropdown-item modifyCommandButton">Modify<a>
-                                    <a class="dropdown-item deleteCommandButton">Delete</a>
-                                  </div>
-                                </div> 
-                              </td>
-                              <td style="display:none;"><%= data.commands[i].id %></td>
-                              <td><%= data.commands[i].action %></td>
-                              <td><%= data.commands[i].description %></td>
-                              <td><%= data.commands[i].response %></td>
-                              <td style="display:none;"><%= data.commands[i].createdAt %></td>
-                              <td><%= moment(data.commands[i].updatedAt).format('DD-MM-YYYY HH:mm:ss') %></td>
-                            </tr>
-                          <% } %>
                         </tbody>
                       </table>
                     </div>
@@ -148,6 +128,7 @@
               </div>
             </div>
           </div>
+          <!-- CREATE / UPDATE COMMAND MODAL -->
           <div class="modal fade" id="createCommandModal" tabindex="-1" role="dialog" aria-labelledby="createCommandModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
@@ -177,6 +158,30 @@
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" id="closeButtonCreateCommandModal">Close</button>
                   <button type="button" class="btn btn-primary" id="confirmButtonCreateCommandModal">Confirm</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- DELETE COMMAND MODAL -->
+          <div class="modal fade" id="deleteCommandModal" tabindex="-1" role="dialog" aria-labelledby="deleteCommandModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="deleteCommandModalLabel">Delete Command</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p id="pCommandToDelete">Are you sure that you want to delete the action:</p>
+                  <div class="form-group" style="display:none">
+                    <label for="idInputTextDeleteModal" class="col-form-label" style="display:none">Id:</label>
+                    <input type="text" class="form-control" id="idInputTextDeleteModal" style="display:none">
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" id="deleteButtonDeleteCommand">Close</button>
+                  <button type="button" class="btn btn-primary" id="confirmButtonDeleteCommand">Confirm</button>
                 </div>
               </div>
             </div>

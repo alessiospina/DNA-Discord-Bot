@@ -31,8 +31,17 @@ export class DashboardService {
             return await this.commandService.add(command);
         } catch (error) {
             this.logger.error('createCommand() error:' + JSON.stringify(error))
-            throw new InternalServerErrorException();
+            throw new InternalServerErrorException(error.message);
             
+        }
+    }
+
+    async deleteCommand(command: CommandDto): Promise<any> {
+        try {
+            return await this.commandService.delete(command.id);
+        } catch (error) {
+            this.logger.error('deleteCommand() error:' + JSON.stringify(error))
+            throw new InternalServerErrorException(error.message);
         }
     }
 }

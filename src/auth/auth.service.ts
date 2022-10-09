@@ -14,8 +14,10 @@ export class AuthService {
     ) {}
 
     async validateUser({username}): Promise<any> {
-        const user = await this.userService.findByUsername(username);
-        if (!user) {
+        let user = undefined
+        try {
+            user =  await this.userService.findByUsername(username);
+        } catch (error) {
             throw new UnauthorizedException()
         }
         const { ...result } = user;

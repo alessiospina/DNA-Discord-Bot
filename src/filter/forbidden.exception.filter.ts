@@ -5,7 +5,16 @@ import { ArgumentsHost, Catch, ExceptionFilter, ForbiddenException } from "@nest
 @Catch(ForbiddenException)
 export class ForbiddenExceptionFilter implements ExceptionFilter {
     catch(exception: ForbiddenException, host: ArgumentsHost) {
-        const res = host.switchToHttp().getResponse();
-        res.render('login')
+        const ctx = host.switchToHttp();
+        const response = ctx.getResponse();
+        const request = ctx.getRequest();
+        const status = exception.getStatus();
+        
+        if(request.url && !request.url.includes('/api/'))
+            return response.render('login')  
+        
+        response.status(status).json({
+            message: "Forbidden"
+        });
     }
 }

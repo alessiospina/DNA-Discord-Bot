@@ -5,7 +5,16 @@ import { ArgumentsHost, Catch, ExceptionFilter, NotFoundException } from "@nestj
 @Catch(NotFoundException)
 export class NotFoundExceptionFilter implements ExceptionFilter {
     catch(exception: NotFoundException, host: ArgumentsHost) {
-        const res = host.switchToHttp().getResponse();
-        res.render('notfound')
+        const ctx = host.switchToHttp();
+        const response = ctx.getResponse();
+        const request = ctx.getRequest();
+        const status = exception.getStatus();
+        
+        if(request.url && !request.url.includes('/api/'))
+            return response.render('notfound')  
+        
+        response.status(status).json({
+            message: "Not Found"
+        });
     }
 }
