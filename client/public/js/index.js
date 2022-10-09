@@ -32,6 +32,7 @@ $(document).ready(function() {
             searching: true, 
             paging: true, 
             info: false,
+            scrollY: false,
             columnDefs: [
                 {
                     targets: 0,
@@ -70,6 +71,7 @@ $(document).ready(function() {
                     targets: 4,
                     orderable: false,
                     searchable: true,
+                    width: "400px"
                 },
                 {
                     targets: 5,
@@ -81,6 +83,7 @@ $(document).ready(function() {
                     targets: 6,
                     orderable: true,
                     searchable: true,
+                    visible: false
                 }
             ],
             order:[[6, 'desc']],
@@ -96,6 +99,9 @@ $(document).ready(function() {
             ]
         }
     );
+
+    $('#table td').css('white-space','initial');
+
 
     createButtonCommandModal.click(function() {
         actionInputText.val("")
@@ -157,7 +163,7 @@ $(document).ready(function() {
     $(document).on('click', '.deleteCommandButton', function(){
         const data = dataTable.row($(this).parents('tr')).data();
         console.log(data)
-        pCommandToDelete.text('Are you sure that you want delete the action: ' + data.action)
+        pCommandToDelete.text(data.action)
         idInputTextDeleteModal.val(data.id)
         deleteCommandModal.modal('show')
     });

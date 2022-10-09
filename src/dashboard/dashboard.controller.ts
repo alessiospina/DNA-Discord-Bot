@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, Post, Render, Request, Res, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Post, Render, Request, Res, UseGuards, UseInterceptors } from "@nestjs/common";
 import { LoginRequestDto } from "src/auth/login.request.dto";
 import { DashboardService } from "./dashboard.service";
 import { AuthService } from '../auth/auth.service';
@@ -9,6 +9,7 @@ import { Response } from 'express'
 import { CommandDto } from '../command/command.dto';
 import * as moment from 'moment'
 import { DiscordManager } from '../discord/discord.manager';
+import { DiscordReuploadCommands } from '../discord/discord.reupload.commands';
 
 @Controller()
 export class DashboardController {
@@ -54,12 +55,14 @@ export class DashboardController {
     }
 
     @Post('/dashboard/create/command')
+    @UseInterceptors(DiscordReuploadCommands)
     @UseGuards(AuthenticatedGuard)
     async createCommand(@Body() command: CommandDto) {
         return this.dashboardService.createCommand(command)
     }
 
     @Delete('/dashboard/delete/command')
+    @UseInterceptors(DiscordReuploadCommands)
     @UseGuards(AuthenticatedGuard)
     async deleteCommand(@Body() command: CommandDto) {
         return this.dashboardService.deleteCommand(command)

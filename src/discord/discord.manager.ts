@@ -27,7 +27,7 @@ export class DiscordManager {
             this.client.on('interactionCreate', async interaction => {
                 if (!interaction.isChatInputCommand()) return;
                 
-                this.logger.log('startBot() - interactionCreated(): user input:' + interaction.commandName)
+                this.logger.log('onInteraction() - user input: ' + interaction.commandName)
                 
                 if (this.commandsMap.has(interaction.commandName)) {
                     await interaction.reply(this.commandsMap.get(interaction.commandName));
@@ -36,12 +36,14 @@ export class DiscordManager {
         })
 
         this.client.login(this.token)
+
+        this.registerCommands()
     }
 
 
     
-    public async registerCommands() {
-        this.logger.log('startBot() - request incoming')
+    private async registerCommands() {
+        this.logger.log('registerCommands() - request incoming')
         let commands: Command[] = []
         try {
             commands = await this.commandService.findAll();
@@ -63,7 +65,7 @@ export class DiscordManager {
         }
     }
 
-    public async resetCommands() {
+    private async resetCommands() {
         try {
             await this.client.rest.put(Routes.applicationCommands(this.applicationId), { body: [] })
             this.logger.log('resetCommands() - discord commands reset')
