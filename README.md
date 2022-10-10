@@ -1,52 +1,21 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a name="readme-top"></a>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
-
-
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
 
 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="content/img/logo-dna.png" alt="Logo" width="250" height="210">
   </a>
 
-  <h3 align="center">Best-README-Template</h3>
+  <h3 align="center">Dna Bot Dashboard</h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
+    Discord Bot designed for Dawn of new Age (Unofficial Ultima Online Shard)
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/alessiospina/DNA-Discord-Bot"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
   </p>
 </div>
 
@@ -82,19 +51,11 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+*Dna Bot Dashboard* is a project developed with the intention of improving my skills by learning **NestJS** and the **discord.js** package.
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+The project consists of the analysis, development and testing of a web application that allows one to be able to effectively manage a discord bot.
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
-
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
-
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
+The application consists of a **discord bot** and a **web client** that through authentication allows the user to be able to add, delete, and edit commands for the bot to handle.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -102,16 +63,12 @@ Use the `BLANK_README.md` to get started.
 
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-
-* [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
+* [NestJS](https://nestjs.com/)
+* [discord.js](https://discord.js.org/#/)
+* [Corona Admin](https://github.com/BootstrapDash/corona-free-dark-bootstrap-admin-template)
+* [Bootstrap 4](https://getbootstrap.com/docs/4.6/getting-started/introduction/)
+* [JQuery](https://jquery.com/)
+* [CSS]()
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -120,12 +77,7 @@ This section should list any major frameworks/libraries used to bootstrap your p
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 ### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
 * npm
   ```sh
   npm install npm@latest -g
@@ -133,20 +85,32 @@ This is an example of how to list things you need to use the software and how to
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/alessiospina/DNA-Discord-Bot.git
    ```
-3. Install NPM packages
+2. Install NPM packages
    ```sh
    npm install
    ```
-4. Enter your API in `config.js`
+3. Create a bot on [Discord Developer Portal](https://discord.com/developers/docs)
+
+4. Create .env file following the schema in `.public.env`
    ```js
-   const API_KEY = 'ENTER YOUR API';
+   DISCORD_TOKEN = ** Discord token **
+   DISCORD_APPLICATION_ID = ** Discord application id **
+   JWT_SECRET = ** alfanumeric string **
+   JWT_EXPIRES_IN = ** example: '3600s'**
+   SESSION_SECRET = ** alfanumeric string **
+   DATABASE_PORT = ** db port **
+   DATABASE_HOST = ** db host **
+   DATABASE_USERNAME = ** db user **
+   DATABASE_PASSWORD = ** db pass **
+   DATABASE_SCHEMA = ** db schema **
+   ```
+5. Run with: 
+   ```sh
+   npm run start:dev
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -156,9 +120,7 @@ _Below is an example of how you can instruct your audience on installing and set
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
+### Login 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -245,13 +207,12 @@ Use this space to list resources you find helpful and would like to give credit 
 [forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
 [stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
 [stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
+[issues-shield]: https://img.shields.io/github/issues/alessiospina/DNA-Discord-Bot
+[issues-url]: https://github.com/alessiospina/DNA-Discord-Bot/issues
 [license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
 [license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: images/screenshot.png
+[linkedin-url]: https://www.linkedin.com/in/alessiospina93/
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
@@ -262,7 +223,7 @@ Use this space to list resources you find helpful and would like to give credit 
 [Angular-url]: https://angular.io/
 [Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
 [Svelte-url]: https://svelte.dev/
-[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
+[NestJS]: https://img.shields.io/badge/NestJS-FF2D20?style=for-the-badge&logo=nestjs&logoColor=white
 [Laravel-url]: https://laravel.com
 [Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
 [Bootstrap-url]: https://getbootstrap.com

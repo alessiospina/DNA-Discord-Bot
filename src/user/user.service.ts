@@ -4,14 +4,35 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { User } from "./user.entity";
 import * as bcrypt from 'bcrypt'
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UserService{
     private readonly logger = new Logger(UserService.name);
     
     constructor(
-        @InjectRepository(User) private readonly userRepository: Repository<User>
-    ) {}
+        @InjectRepository(User) private readonly userRepository: Repository<User>,
+        private readonly configService: ConfigService
+    ) {
+        const adminUsername = this.configService.getOrThrow('ADMIN_USERNAME')
+        const adminPassword = this.configService.getOrThrow('ADMIN_PASSWORD')
+        
+        const admin: User = {
+            id: null,
+            username: adminUsername,
+            password: adminPassword,
+            createdAt: null,
+            updatedAt: null,
+        };
+
+        (async () => {
+            try {
+                await this.add(admin)
+            } catch (error) {
+                this.logger.error("admin init account error: " + error.message)
+            }
+        })();
+    }
 
     public async findAll(): Promise<User[]> {
         this.logger.log('findAll() - incoming request')
@@ -75,7 +96,7 @@ export class UserService{
             saved = await this.userRepository.save(user)
         } catch (error) {
             this.logger.error('add() - error: ' + JSON.stringify(error))
-            throw new InternalServerErrorException()
+            throw new InternalServerErrorException(error.sqlMessage ?? "")
         }
         this.logger.log('add() - user saved: ' + JSON.stringify(saved))
         return saved
