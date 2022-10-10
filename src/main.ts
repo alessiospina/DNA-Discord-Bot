@@ -10,6 +10,7 @@ import * as passport from "passport";
 import { ForbiddenExceptionFilter } from "./filter/forbidden.exception.filter";
 import { NotFoundExceptionFilter } from "./filter/not.found.exception.filter";
 import { UnauthorizedExceptionFilter } from "./filter/unauthorized.exception.filter";
+import { ConfigService } from "@nestjs/config";
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -23,9 +24,11 @@ async function bootstrap() {
     
     app.setViewEngine('ejs')
 
+    const configService: ConfigService = app.get(ConfigService);
+
     app.use(
         session({
-          secret: 'nest cats',
+          secret: configService.getOrThrow('SESSION_SECRET'),
           resave: false,
           saveUninitialized: false,
         }),
