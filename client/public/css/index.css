@@ -22,3 +22,8 @@ select {
 .dataTables_wrapper.dataTables_paginate.paginate_button {
     color: white !important;
 }
+
+.dataTables_scrollBody{
+    overflow-y: visible !important;
+    overflow-x: visible !important;
+}
