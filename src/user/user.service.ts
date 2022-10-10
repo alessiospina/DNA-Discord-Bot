@@ -1,8 +1,9 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, Logger, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, Logger, HttpException, HttpStatus, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { User } from "./user.entity";
+import * as bcrypt from 'bcrypt'
 
 @Injectable()
 export class UserService{
@@ -19,7 +20,7 @@ export class UserService{
             found = await this.userRepository.find()
         } catch (error) {
             this.logger.error('findAll() - error: ' + JSON.stringify(error))
-            throw new HttpException("Error during find users", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new InternalServerErrorException()
         }
         if(!found || found.length <= 0) {
             this.logger.warn('findAll() - no content.')
@@ -36,11 +37,11 @@ export class UserService{
             found = await this.userRepository.findOneBy({ id: id });
         } catch(error) {
             this.logger.error('findById() - error: ' + JSON.stringify(error))
-            throw new HttpException('Error', HttpStatus.INTERNAL_SERVER_ERROR)
+            throw new InternalServerErrorException()
         }
         if(!found) {
             this.logger.warn('findById() - user id: ' + id + ' not found.')
-            throw new HttpException('Not Found', HttpStatus.NOT_FOUND)
+            throw new NotFoundException()
         }
         return found  
     }
@@ -52,11 +53,11 @@ export class UserService{
             found = await this.userRepository.findOneBy({ username: username });
         } catch(error) {
             this.logger.error('findByUsername() - error: ' + JSON.stringify(error))
-            throw new HttpException('Error', HttpStatus.INTERNAL_SERVER_ERROR)
+            throw new InternalServerErrorException()
         }
         if(!found) {
             this.logger.warn('findByUsername() - username: ' + username + ' not found.')
-            throw new HttpException('Not Found', HttpStatus.NOT_FOUND)
+            throw new NotFoundException()
         }
         return found  
     }
@@ -64,11 +65,17 @@ export class UserService{
     public async add(user: User): Promise<User> {
         this.logger.log('add() - incoming request, user: ' + JSON.stringify(user))
         let saved: User = undefined
+
+        const salt = bcrypt.genSaltSync()
+        const hashedPassword = bcrypt.hashSync(user.password, salt);
+
+        user.password = hashedPassword
+
         try {
             saved = await this.userRepository.save(user)
         } catch (error) {
             this.logger.error('add() - error: ' + JSON.stringify(error))
-            throw new HttpException('Error during creation', HttpStatus.INTERNAL_SERVER_ERROR)
+            throw new InternalServerErrorException()
         }
         this.logger.log('add() - user saved: ' + JSON.stringify(saved))
         return saved
@@ -82,7 +89,7 @@ export class UserService{
         } catch (error) {
             this.logger.error('delete() - error: ' + JSON.stringify(error))
             if(!(error instanceof HttpException))
-                throw new HttpException('Error during delete operation.', HttpStatus.INTERNAL_SERVER_ERROR)
+                throw new InternalServerErrorException()
             if(error.getStatus() === HttpStatus.NOT_FOUND)
                 throw new HttpException('No Content', HttpStatus.NO_CONTENT)
             throw error
@@ -92,11 +99,11 @@ export class UserService{
             deleted = (await this.userRepository.delete(id)).affected
         } catch(error) {
             this.logger.error('delete() - error: ' + JSON.stringify(error))
-            throw new HttpException('Error during delete operation.', HttpStatus.INTERNAL_SERVER_ERROR)
+            throw new InternalServerErrorException();
         }
         if(!deleted) {
             this.logger.error('delete() - delete operation not affected with id: ' + id)
-			throw new HttpException('Error during delete operation', HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new InternalServerErrorException();
 		}
         return found
     }

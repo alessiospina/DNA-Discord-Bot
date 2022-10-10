@@ -5,7 +5,7 @@ import { ServerResponse } from "src/common/server.response";
 import { UserDto } from "./user.dto";
 import { UserService } from './user.service';
 
-@Controller('user')
+@Controller('/api/user')
 export class UserController {
     constructor(private readonly userService: UserService) {}
 

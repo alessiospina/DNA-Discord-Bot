@@ -43,7 +43,7 @@ export class DashboardController {
         }
     }
 
-    @Post('/jwt/login')
+    @Post('/api/jwt/login')
     async jwtLogin(@Body() loginRequest: LoginRequestDto) {
         return this.authService.login(loginRequest);
     }

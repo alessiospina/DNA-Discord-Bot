@@ -1,10 +1,11 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, HttpException, HttpStatus, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from "@nestjs/jwt";
 import { UserDto } from 'src/user/user.dto';
 import { User } from 'src/user/user.entity';
 import { UserService } from '../user/user.service';
 import { LoginRequestDto } from './login.request.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -34,19 +35,23 @@ export class AuthService {
         if(!user)
             throw new UnauthorizedException()
 
-        if(pass !== user.password)
+        if(!bcrypt.compareSync(pass, user.password))
             throw new UnauthorizedException()
         
         return user
     }
     
     async login(user: LoginRequestDto) {
-        let attempt = undefined
+        let attempt: User = undefined
         try {
             attempt = await this.userService.findByUsername(user.username)
         } catch(error) {
-            throw new HttpException('Unathorized', HttpStatus.UNAUTHORIZED)
+            throw new UnauthorizedException()
         }
+
+        if(!bcrypt.compareSync(user.password, attempt.password))
+            throw new UnauthorizedException()
+
         return this._createToken(attempt)
     }
 
