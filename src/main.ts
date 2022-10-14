@@ -27,17 +27,17 @@ async function bootstrap() {
     const configService: ConfigService = app.get(ConfigService);
 
     app.use(
-        session({
-          secret: configService.getOrThrow('SESSION_SECRET'),
-          resave: false,
-          saveUninitialized: false,
-        }),
-      );
+      session({
+        secret: configService.getOrThrow('SESSION_SECRET'),
+        resave: false,
+        saveUninitialized: false,
+      }),
+    );
 
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(flash());
     
-    await app.listen(3000);
+    await app.listen(443);
 }
 bootstrap();

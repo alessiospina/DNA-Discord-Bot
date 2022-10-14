@@ -18,7 +18,7 @@ export class UserService{
         const adminPassword = this.configService.getOrThrow('ADMIN_PASSWORD')
         
         const admin: User = {
-            id: null,
+            id: 0,
             username: adminUsername,
             password: adminPassword,
             createdAt: null,
