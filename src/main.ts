@@ -38,6 +38,6 @@ async function bootstrap() {
     app.use(passport.session());
     app.use(flash());
     
-    await app.listen(443);
+    await app.listen(3000);
 }
 bootstrap();
