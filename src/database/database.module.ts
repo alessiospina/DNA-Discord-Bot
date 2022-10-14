@@ -18,7 +18,7 @@ import { Command } from '../command/command.entity';
                 password: configService.getOrThrow<string>('DATABASE_PASSWORD'),
                 database: configService.getOrThrow<string>('DATABASE_SCHEMA'),
                 entities: [User, Command],
-                ssl: true,
+                ssl: false,
                 synchronize: true,
             }),
         }),
