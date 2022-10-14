@@ -59,6 +59,8 @@ The application consists of a **discord bot** and a **web client** that through 
 ### Built With
 
 * [NestJS](https://nestjs.com/)
+* [TypeOrm](https://typeorm.io/)
+* [mysql](https://www.mysql.com/it/)
 * [discord.js](https://discord.js.org/#/)
 * [Corona Admin](https://github.com/BootstrapDash/corona-free-dark-bootstrap-admin-template)
 * [Bootstrap 4](https://getbootstrap.com/docs/4.6/getting-started/introduction/)
@@ -102,6 +104,7 @@ The application consists of a **discord bot** and a **web client** that through 
    DATABASE_USERNAME = ** db user **
    DATABASE_PASSWORD = ** db pass **
    DATABASE_SCHEMA = ** db schema **
+   DATABASE_NAME = ** db name **
    ADMIN_USERNAME = ** user **
    ADMIN_PASSWORD = ** pass **
    ```
