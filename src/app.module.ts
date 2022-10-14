@@ -5,6 +5,7 @@ import { DiscordModule } from "./discord/discord.module";
 import { DatabaseModule } from "./database/database.module";
 import { UserModule } from "./user/user.module";
 import { DashboardModule } from "./dashboard/dashboard.module";
+import { AppController } from './app.controller';
 
 @Module({
     imports: [
@@ -15,7 +16,9 @@ import { DashboardModule } from "./dashboard/dashboard.module";
         CommandModule,
         DiscordModule,
     ],
-    controllers: [],
+    controllers: [
+        AppController
+    ],
     providers: [],
 })
 export class AppModule {}
