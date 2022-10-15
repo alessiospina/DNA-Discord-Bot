@@ -9,10 +9,13 @@ export class CommandDto {
     readonly action: string
 
     @Expose()
-    readonly description: string
+    description: string
 
     @Expose()
-    readonly response: string
+    response: string
+
+    @Expose()
+    discordId: string
 
     @Expose()
     readonly createdAt: Date

@@ -9,7 +9,9 @@ import { Response } from 'express'
 import { CommandDto } from '../command/command.dto';
 import * as moment from 'moment'
 import { DiscordManager } from '../discord/discord.manager';
-import { DiscordReuploadCommands } from '../discord/discord.reupload.commands';
+import { DiscordDeleteCommandsInterceptor } from '../discord/interceptor/discord.delete.commands.interceptor';
+import { DiscordAddCommandsInterceptor } from '../discord/interceptor/discord.add.commands.interceptor';
+import { DiscordModifyCommandsInterceptor } from '../discord/interceptor/discord.modify.commands.interceptor';
 
 @Controller()
 export class DashboardController {
@@ -55,22 +57,20 @@ export class DashboardController {
     }
 
     @Post('/dashboard/create/command')
-    @UseInterceptors(DiscordReuploadCommands)
     @UseGuards(AuthenticatedGuard)
     async createCommand(@Body() command: CommandDto) {
         return this.dashboardService.createCommand(command)
     }
 
     @Delete('/dashboard/delete/command')
-    @UseInterceptors(DiscordReuploadCommands)
     @UseGuards(AuthenticatedGuard)
     async deleteCommand(@Body() command: CommandDto) {
         return this.dashboardService.deleteCommand(command)
     }
 
-    @Get('/dashboard/reupload/commands/')
+    @Post('/dashboard/modify/command')
     @UseGuards(AuthenticatedGuard)
-    async restartBot() {
-        return this.discordManager.updateCommands()
+    async modifyCommand(@Body() command: CommandDto) {
+        return this.dashboardService.modifyCommand(command)
     }
 }

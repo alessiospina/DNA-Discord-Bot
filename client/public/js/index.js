@@ -115,7 +115,7 @@ $(document).ready(function() {
     });
 
     confirmButtonCommandModal.click(function() {
-        const id = (idInputText.val() === null || isNaN(idInputText.val())) ?  null : Number(idInputText.val())
+        const id = idInputText.val()
         const action = actionInputText.val()
         const description = descriptionInputText.val()
         const response = responseInputText.val()
@@ -129,11 +129,19 @@ $(document).ready(function() {
             response: response
         }
 
+        console.log(idInputText.val())
         console.log(command)
+
+        let url = ''
+
+        if(id == null || id == undefined || id == '') 
+            url = '/dashboard/create/command'
+        else 
+            url = '/dashboard/modify/command'
 
         $.ajax({
             type: 'POST',
-            url: "/dashboard/create/command",
+            url: url,
             data: JSON.stringify(command),
             contentType: "application/json",
             success: function(res) {},
@@ -174,7 +182,8 @@ $(document).ready(function() {
         console.log(idInputTextDeleteModal.val())
         
         const command = {
-            id: idInputTextDeleteModal.val()
+            id: idInputTextDeleteModal.val(),
+            action: pCommandToDelete.text()
         }
 
         $.ajax({

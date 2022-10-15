@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
@@ -43,6 +43,7 @@ export class CommandService {
     }
 
     public async findById(id: number): Promise<Command> {
+        this.logger.log('findById() - incoming request with id: ' + id)
         let found = undefined
         try {
             found = await this.commandRepository.findOneBy({ id: id });
@@ -51,8 +52,25 @@ export class CommandService {
             throw new HttpException("Command Error during the command selection", HttpStatus.INTERNAL_SERVER_ERROR)   
         }
         if(!found) {
-            this.logger.warn('find() obj id: ' + id + ' not found')
-            throw new HttpException('Command not found', HttpStatus.NOT_FOUND)
+            this.logger.warn('findById() obj id: ' + id + ' not found')
+            throw new NotFoundException()
+        }
+
+        return found
+    }
+
+    public async findByAction(action: string): Promise<Command> {
+        this.logger.log('findByAction() - incoming request with action: ' + action)
+        let found = undefined
+        try {
+            found = await this.commandRepository.findOneBy({ action: action });
+        } catch (error) {
+            this.logger.error('findByAction() - error: ' + error)
+            throw new HttpException("Command Error during the command selection", HttpStatus.INTERNAL_SERVER_ERROR)   
+        }
+        if(!found) {
+            this.logger.warn('findByAction() obj action: ' + action + ' not found')
+            throw new NotFoundException()
         }
 
         return found
@@ -70,6 +88,19 @@ export class CommandService {
             throw new HttpException("Command Error during command creation", HttpStatus.INTERNAL_SERVER_ERROR)    
         }
         this.logger.log('add() - command created: ' + JSON.stringify(saved))
+        return saved
+    }
+
+    public async modify(toUpdate: CommandDto): Promise<Command> {
+        this.logger.log('add() - incoming request with obj: ' + JSON.stringify(toUpdate))
+        let saved = await this.findById(toUpdate.id)
+        try {
+            saved = await this.commandRepository.save(toUpdate);
+        } catch (error) {
+            this.logger.error('modify() - error: ' + error)
+            throw new HttpException("Command Error during command creation", HttpStatus.INTERNAL_SERVER_ERROR)    
+        }
+        this.logger.log('modify() - command created: ' + JSON.stringify(saved))
         return saved
     }
 

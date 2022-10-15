@@ -16,6 +16,9 @@ export class Command {
     @Column({name: 'response', nullable: false, type: "text" })
     response: string;
 
+    @Column({name: 'discordId', length: 128, nullable: true })
+    discordId: string;
+
     @CreateDateColumn({
         name: 'created_at',
         type: 'timestamp',
@@ -31,11 +34,12 @@ export class Command {
     })
     updatedAt: Date;
 
-    constructor(id: number, action: string, description: string, response: string, createdAt: Date, updatedAt: Date) {
+    constructor(id: number, action: string, description: string, response: string, discordId: string, createdAt: Date, updatedAt: Date) {
         this.id = id;
         this.action = action;
         this.description = description;
         this.response = response;
+        this.discordId = discordId;
         this.createdAt = createdAt
         this.updatedAt = updatedAt;
     }

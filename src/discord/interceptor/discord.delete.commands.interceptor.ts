@@ -1,11 +1,11 @@
 /* eslint-disable prettier/prettier */
 import { CallHandler, ExecutionContext, NestInterceptor, Logger, Injectable } from '@nestjs/common';
 import { Observable, tap } from "rxjs";
-import { DiscordManager } from './discord.manager';
+import { DiscordManager } from '../discord.manager';
 
 @Injectable()
-export class DiscordReuploadCommands implements NestInterceptor {
-    private readonly logger = new Logger(DiscordReuploadCommands.name);
+export class DiscordDeleteCommandsInterceptor implements NestInterceptor {
+    private readonly logger = new Logger(DiscordDeleteCommandsInterceptor.name);
 
     constructor(private readonly discordManager: DiscordManager){}
 
@@ -14,10 +14,10 @@ export class DiscordReuploadCommands implements NestInterceptor {
         const now = Date.now()
         return next.handle().pipe(
             tap(() => {
-                this.discordManager.updateCommands()
-                this.logger.log(`Reupload commands after: ${Date.now() - now}ms`)
+                const command = context.switchToHttp().getResponse().req.body
+                this.discordManager.deleteCommand(command)
+                this.logger.log(`delete commands after: ${Date.now() - now}ms`)
             })
         );
     }
-    
 }
