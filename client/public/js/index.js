@@ -115,7 +115,7 @@ $(document).ready(function() {
     });
 
     confirmButtonCommandModal.click(function() {
-        const id = idInputText.val()
+        const id = (idInputText.val() === '') ? null : Number(idInputText.val())
         const action = actionInputText.val()
         const description = descriptionInputText.val()
         const response = responseInputText.val()
