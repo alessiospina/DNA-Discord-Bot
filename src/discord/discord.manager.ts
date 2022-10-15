@@ -6,7 +6,7 @@ import { Command } from 'src/command/command.entity';
 import { CommandService } from '../command/command.service';
 import { CommandDto } from '../command/command.dto';
 import { DiscordCommandDto } from './dto/command.discord.dto';
-import { classToPlain, plainToClass } from '@nestjs/class-transformer';
+import { plainToClass } from '@nestjs/class-transformer';
 
 @Injectable()
 export class DiscordManager {
@@ -40,44 +40,6 @@ export class DiscordManager {
 
         this.client.login(this.token)
         this.loadResponseCommandsMap()
-    }
-
-
-    
-    private async loadCommands() {
-        this.logger.log('registerCommands() - request incoming')
-        let commands: Command[] = []
-        try {
-            commands = await this.commandService.findAll();
-        } catch (error) {
-            this.logger.error("Error during command getCommands(): " + JSON.stringify(error))
-        }
-        const discordCommands: any[] = []
-
-        for (const command of commands) {
-            /*discordCommands.push(
-                new SlashCommandBuilder()
-                    .setName(command.action)
-                    .setDescription(command.description).toJSON()
-            )*/
-            this.commandsMap.set(command.action, command)
-        }
-        try {
-            //await this.client.rest.post(Routes.applicationCommands(this.applicationId), { body: discordCommands })
-            this.logger.log('registerCommands() - discord command registered, size: ' + discordCommands.length)
-        }
-        catch(error) {
-            this.logger.log('registerCommands() - error: ' + JSON.stringify(error))
-        }
-    }
-
-    private async resetCommands() {
-        try {
-            await this.client.rest.put(Routes.applicationCommands(this.applicationId), { body: [] })
-            this.logger.log('resetCommands() - discord commands reset')
-        } catch (error) {
-            this.logger.log('resetCommands() - error: ' + JSON.stringify(error))
-        }
     }
 
     public async addCommand(command: CommandDto) {
