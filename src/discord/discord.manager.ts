@@ -30,7 +30,7 @@ export class DiscordManager {
             this.client.on('interactionCreate', async interaction => {
                 if (!interaction.isChatInputCommand()) return;
                 
-                this.logger.log('onInteraction() - user input: ' + interaction.commandName)
+                this.logger.log('onInteraction() - user: ' + interaction.user + ' command: ' + interaction.commandName)
                 
                 if (this.commandsMap.has(interaction.commandName)) {
                     await interaction.reply(this.commandsMap.get(interaction.commandName).response);
