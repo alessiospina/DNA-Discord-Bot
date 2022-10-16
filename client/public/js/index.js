@@ -33,6 +33,7 @@ $(document).ready(function() {
             paging: true, 
             info: false,
             scrollY: false,
+            scrollX: false,
             columnDefs: [
                 {
                     targets: 0,
@@ -100,7 +101,7 @@ $(document).ready(function() {
         }
     );
 
-    $('#table td').css('white-space','initial');
+    //$('#table td').css('white-space','initial');
 
 
     createButtonCommandModal.click(function() {

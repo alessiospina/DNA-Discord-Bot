@@ -27,3 +27,7 @@ select {
     overflow-y: visible !important;
     overflow-x: visible !important;
 }
+
+td:nth-child(4){
+    white-space: initial;
+}
