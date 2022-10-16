@@ -31,3 +31,13 @@ select {
 td:nth-child(4){
     white-space: initial;
 }
+
+
+.form-control[readonly] {
+    background-color: black !important;
+    cursor: no-drop;
+}
+
+.dropdown-item {
+    cursor: pointer;
+}

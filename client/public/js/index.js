@@ -106,6 +106,7 @@ $(document).ready(function() {
 
     createButtonCommandModal.click(function() {
         actionInputText.val("")
+        actionInputText.removeAttr('readonly')
         descriptionInputText.val("")
         responseInputText.val("")
         createCommandModal.modal('show')
@@ -160,12 +161,11 @@ $(document).ready(function() {
     $(document).on('click', '.modifyCommandButton', function(){
         const data = dataTable.row($(this).parents('tr')).data();
         console.log(data)
-
         idInputText.val(data.id)
         actionInputText.val(data.action)
+        actionInputText.prop('readonly', true)
         descriptionInputText.val(data.description)
         responseInputText.val(data.response)
-
         createCommandModal.modal('show')
     });
 
